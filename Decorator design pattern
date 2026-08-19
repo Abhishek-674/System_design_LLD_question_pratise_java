@@ -1,0 +1,71 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Coffee Interface
+class Coffee {
+public:
+    virtual string getDescription() = 0;
+    virtual int getCost() = 0;
+    virtual ~Coffee() {}
+};
+
+// Concrete Component - Simple Coffee
+class SimpleCoffee : public Coffee {
+public:
+    string getDescription() override {
+        return "Simple Coffee";
+    }
+
+    int getCost() override {
+        return 50;
+    }
+};
+
+// Decorator Base Class
+class CoffeeDecorator : public Coffee {
+protected:
+    Coffee* coffee;
+public:
+    CoffeeDecorator(Coffee* c) : coffee(c) {}
+};
+
+// Concrete Decorator - Milk
+class MilkDecorator : public CoffeeDecorator {
+public:
+    MilkDecorator(Coffee* c) : CoffeeDecorator(c) {}
+
+    string getDescription() override {
+        return coffee->getDescription() + ", Milk";
+    }
+
+    int getCost() override {
+        return coffee->getCost() + 10;
+    }
+};
+
+// Concrete Decorator - Sugar
+class SugarDecorator : public CoffeeDecorator {
+public:
+    SugarDecorator(Coffee* c) : CoffeeDecorator(c) {}
+
+    string getDescription() override {
+        return coffee->getDescription() + ", Sugar";
+    }
+
+    int getCost() override {
+        return coffee->getCost() + 5;
+    }
+};
+
+// Main Function
+int main() {
+    Coffee* sugarMilkCoffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
+
+    cout << sugarMilkCoffee->getDescription() << " Cost: " << sugarMilkCoffee->getCost() << endl;
+
+    // Cleanup
+    delete sugarMilkCoffee;
+
+    return 0;
+}

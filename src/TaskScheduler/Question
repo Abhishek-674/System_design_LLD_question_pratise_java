@@ -1,0 +1,13 @@
+A user should be able to create a task.
+A task should contain:
+Task ID
+Task name
+Execution time
+Task status
+The scheduler should support:
+One-time tasks
+Recurring tasks
+A user should be able to:
+Schedule a task
+Cancel a task
+Reschedule a task

@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+// Handler Interface
+class CashHandler {
+protected:
+    CashHandler* next;
+public:
+    void setNext(CashHandler* nextHandler) {
+        next = nextHandler;
+    }
+
+    virtual void handleCash(int amount) = 0;
+    virtual ~CashHandler() {}
+};
+
+// Concrete Handler for Rs 2000 notes
+class Rs2000Handler : public CashHandler {
+public:
+    void handleCash(int amount) override {
+        int num = amount / 2000;
+        if (num > 0)
+            cout << "Dispensing " << num << " x Rs 2000 notes" << endl;
+        int remaining = amount % 2000;
+        if (remaining > 0 && next)
+            next->handleCash(remaining);
+    }
+};
+
+// Concrete Handler for Rs 500 notes
+class Rs500Handler : public CashHandler {
+public:
+    void handleCash(int amount) override {
+        int num = amount / 500;
+        if (num > 0)
+            cout << "Dispensing " << num << " x Rs 500 notes" << endl;
+        int remaining = amount % 500;
+        if (remaining > 0 && next)
+            next->handleCash(remaining);
+    }
+};
+
+// Concrete Handler for Rs 100 notes
+class Rs100Handler : public CashHandler {
+public:
+    void handleCash(int amount) override {
+        int num = amount / 100;
+        if (num > 0)
+            cout << "Dispensing " << num << " x Rs 100 notes" << endl;
+        int remaining = amount % 100;
+        if (remaining > 0)
+            cout << "Cannot dispense remaining Rs " << remaining << endl;
+    }
+};
+
+// Main function
+int main() {
+    Rs2000Handler h2000;
+    Rs500Handler h500;
+    Rs100Handler h100;
+
+    // Setup chain
+    h2000.setNext(&h500);
+    h500.setNext(&h100);
+
+    int amount = 3700;
+    cout << "Withdraw Rs " << amount << ":" << endl;
+    h2000.handleCash(amount);
+
+    return 0;
+}

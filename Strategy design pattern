@@ -1,0 +1,81 @@
+1. Create the Strategy Interface
+
+
+class DriveStrategy {
+public:
+    virtual void drive() = 0;
+};
+
+
+
+2. Create Concrete Drive Strategies
+
+class NormalDrive : public DriveStrategy {
+public:
+    void drive() override {
+        cout << "Driving on road\n";
+    }
+};
+
+class OffRoadDrive : public DriveStrategy {
+public:
+    void drive() override {
+        cout << "Driving off-road\n";
+    }
+};
+
+class FlyDrive : public DriveStrategy {
+public:
+    void drive() override {
+        cout << "Flying in the air\n";
+    }
+};
+
+3. Create the Vehicle Class (Context)
+
+
+class Vehicle {
+protected:
+    DriveStrategy* driveStrategy;
+public:
+    Vehicle(DriveStrategy* ds) : driveStrategy(ds) {}
+
+    void drive() {
+        driveStrategy->drive();
+    }
+};
+
+4. Create Specific Vehicles
+
+
+class Car : public Vehicle {
+public:
+    Car() : Vehicle(new NormalDrive()) {}
+};
+
+class Bike : public Vehicle {
+public:
+    Bike() : Vehicle(new NormalDrive()) {}
+};
+
+class OffRoadVehicle : public Vehicle {
+public:
+    OffRoadVehicle() : Vehicle(new OffRoadDrive()) {}
+};
+
+class Airplane : public Vehicle {
+public:
+    Airplane() : Vehicle(new FlyDrive()) {}
+};
+
+
+int main() {
+    Car car;
+    car.drive();   // Driving on road
+
+    OffRoadVehicle jeep;
+    jeep.drive();  // Driving off-road
+
+    Airplane plane;
+    plane.drive(); // Flying in the air
+}

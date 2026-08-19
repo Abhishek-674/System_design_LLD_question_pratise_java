@@ -1,0 +1,77 @@
+import java.util.*;
+
+// ✅ Common interface for both File and Directory
+interface FileSystemComponent {
+    void showDetails(); // shows name of file or directory
+}
+
+// ✅ Leaf - Represents a single file
+class File implements FileSystemComponent {
+    private String name;
+
+    public File(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void showDetails() {
+        // Print file name
+        System.out.println("File: " + name);
+    }
+}
+
+// ✅ Composite - Represents a directory that can contain files or other directories
+class Directory implements FileSystemComponent {
+    private String name;
+    private List<FileSystemComponent> children = new ArrayList<>();
+
+    public Directory(String name) {
+        this.name = name;
+    }
+
+    // Add a file or subdirectory to this directory
+    public void add(FileSystemComponent component) {
+        children.add(component);
+    }
+
+    @Override
+    public void showDetails() {
+        // Print directory name
+        System.out.println("Directory: " + name);
+        // Recursively print all children
+        for (FileSystemComponent component : children) {
+            component.showDetails();
+        }
+    }
+}
+
+// ✅ Main class to test the file system
+public class Main {
+    public static void main(String[] args) {
+        // Create files
+        File file1 = new File("a.txt");
+        File file2 = new File("b.txt");
+        File file3 = new File("c.txt");
+
+        // Create a directory and add files
+        Directory docs = new Directory("Docs");
+        docs.add(file1);
+        docs.add(file2);
+
+        // Create main directory and add folder + file
+        Directory mainFolder = new Directory("MainFolder");
+        mainFolder.add(docs);
+        mainFolder.add(file3);
+
+        // Show all files and directories
+        mainFolder.showDetails();
+    }
+}
+
+
+// output 
+// Directory: MainFolder
+// Directory: Docs
+// File: a.txt
+// File: b.txt
+// File: c.txt

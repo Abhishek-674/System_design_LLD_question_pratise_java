@@ -1,0 +1,61 @@
+A user can register as a Rider or Driver.
+A driver can change their availability:
+AVAILABLE
+BUSY
+OFFLINE
+A rider can request a ride by providing:
+Pickup location
+Destination
+Vehicle type
+The system should find nearby available drivers.
+The system should support different driver-matching strategies, such as:
+Nearest driver
+Highest-rated driver
+A driver can accept or reject a ride request.
+Once a driver accepts, that driver should become BUSY.
+A ride should have states:
+REQUESTED
+DRIVER_ASSIGNED
+DRIVER_ARRIVED
+STARTED
+COMPLETED
+CANCELLED
+The rider or driver can cancel a ride.
+Once the ride is completed, calculate the fare based on distance/time and vehicle type.
+The rider should be able to make a payment.
+The system should maintain ride history for riders and drivers.
+Different vehicle types should be supported:
+Bike
+Sedan
+SUV
+The system should allow different pricing strategies, such as normal pricing and surge pricing
+
+classes
+
+User
+ ├── Rider
+ └── Driver
+
+Vehicle
+ ├── Bike
+ ├── Sedan
+ └── SUV
+
+Location
+
+RideRequest
+Ride
+
+Payment
+
+RideManager
+DriverManager
+PaymentManager
+
+DriverMatchingStrategy
+ ├── NearestDriverStrategy
+ └── HighestRatedDriverStrategy
+
+PricingStrategy
+ ├── NormalPricingStrategy
+ └── SurgePricingStrategy

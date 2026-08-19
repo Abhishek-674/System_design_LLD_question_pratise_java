@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Vehicle {
+public:
+    virtual void drive() = 0;
+    virtual ~Vehicle() {}
+};
+// 2. Concrete Products
+
+class Car : public Vehicle {
+public:
+    void drive() override {
+        cout << "Driving Car" << endl;
+    }
+};
+
+class Bike : public Vehicle {
+public:
+    void drive() override {
+        cout << "Riding Bike" << endl;
+    }
+};
+// 3. Factory Class
+
+
+class VehicleFactory {
+public:
+    static Vehicle* getVehicle(const string& type) {
+        if (type == "car")
+            return new Car();
+        else if (type == "bike")
+            return new Bike();
+        else
+            return nullptr;
+    }
+};
+// 4. Client Code (Usage)
+
+int main() {
+    Vehicle* vehicle1 = VehicleFactory::getVehicle("car");
+    if (vehicle1) {
+        vehicle1->drive();
+        delete vehicle1;
+    }
+
+    Vehicle* vehicle2 = VehicleFactory::getVehicle("bike");
+    if (vehicle2) {
+        vehicle2->drive();
+        delete vehicle2;
+    }
+
+    Vehicle* vehicle3 = VehicleFactory::getVehicle("bus");  // Invalid type
+    if (vehicle3 == nullptr) {
+        cout << "Invalid vehicle type!" << endl;
+    }
+
+    return 0;
+}

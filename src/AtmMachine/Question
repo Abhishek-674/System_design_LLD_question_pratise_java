@@ -1,0 +1,24 @@
+Requirements
+A customer can insert their card into the ATM.
+The ATM should validate the card.
+The customer should enter their PIN.
+The system should authenticate the customer using the PIN.
+After successful authentication, the customer should be able to:
+Check balance
+Withdraw cash
+Deposit cash
+Transfer money
+Change PIN
+Eject card
+For cash withdrawal:
+Check whether the account has sufficient balance.
+Check whether the ATM has sufficient cash.
+Dispense the requested amount.
+Deduct the amount from the user's account.
+The ATM should support different denominations of notes.
+
+
+IDLE
+CARD_INSERTED
+AUTHENTICATED
+TRANSACTION

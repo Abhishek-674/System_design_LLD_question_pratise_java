@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Observer Interface
+class Observer {
+public:
+    virtual void update(float temperature) = 0;
+};
+
+// Subject Interface
+class Subject {
+public:
+    virtual void addObserver(Observer* observer) = 0;
+    virtual void removeObserver(Observer* observer) = 0;
+    virtual void notifyObservers() = 0;
+};
+
+// Concrete Subject - Weather Station
+class WeatherStation : public Subject {
+    vector<Observer*> observers;
+    float temperature;
+public:
+    void addObserver(Observer* observer) override {
+        observers.push_back(observer);
+    }
+
+    void removeObserver(Observer* observer) override {
+        observers.erase(remove(observers.begin(), observers.end(), observer), observers.end());
+    }
+
+    void setTemperature(float temp) {
+        temperature = temp;
+        notifyObservers();
+    }
+
+    void notifyObservers() override {
+        for (auto observer : observers) {
+            observer->update(temperature);
+        }
+    }
+};
+
+// Concrete Observer - Display
+class Display : public Observer {
+    string name;
+public:
+    Display(string n) : name(n) {}
+
+    void update(float temperature) override {
+        cout << name << " - Temperature updated to " << temperature << "°C" << endl;
+    }
+};
+
+// Main Function
+int main() {
+    WeatherStation station;
+
+    Display display1("Display 1");
+    Display display2("Display 2");
+
+    station.addObserver(&display1);
+    station.addObserver(&display2);
+
+    station.setTemperature(30.5);
+    station.setTemperature(28.0);
+
+    return 0;
+}

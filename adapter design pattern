@@ -1,0 +1,44 @@
+// ✅ Target Interface
+// This is what the client (Indian socket) expects
+interface IndianSocket {
+    void givePower();  // Method Indian socket provides
+}
+
+// ✅ Adaptee Class
+// This is the existing class with a different interface (European plug)
+class EuropeanPlug {
+    public void supplyPower() {
+        System.out.println("Power supplied using European plug.");
+    }
+}
+
+// ✅ Adapter Class
+// This allows the EuropeanPlug to be used with the IndianSocket
+class SocketAdapter implements IndianSocket {
+    private EuropeanPlug plug;
+
+    // Adapter constructor takes a European plug to adapt
+    public SocketAdapter(EuropeanPlug plug) {
+        this.plug = plug;
+    }
+
+    @Override
+    public void givePower() {
+        // Converts Indian socket request to European plug method
+        plug.supplyPower();
+    }
+}
+
+// ✅ Client Code
+public class Main {
+    public static void main(String[] args) {
+        // You have a European plug (incompatible with Indian socket)
+        EuropeanPlug myPlug = new EuropeanPlug();
+
+        // You use an adapter to make it work with Indian socket
+        IndianSocket socket = new SocketAdapter(myPlug);
+
+        // Now it works! Adapter calls the European plug's method internally
+        socket.givePower();
+    }
+}

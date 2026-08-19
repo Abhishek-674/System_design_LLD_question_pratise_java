@@ -1,0 +1,125 @@
+Design a meeting/conferencing system like Zoom or Google Meet.
+
+The system should support the following operations:
+
+A user can create a meeting.
+The meeting creator becomes the host.
+Users can join and leave a meeting.
+The host can remove a participant.
+Participants can mute/unmute their audio.
+Participants can turn their video on/off.
+The host can end the meeting.
+Participants can send chat messages during the meeting.
+The system should notify participants when someone joins, leaves, mutes, or turns video on/off.
+The design should allow adding new features later, such as screen sharing or recording, without heavily modifying existing code.
+
+classes
+
+User
+Meeting
+Participant
+ChatMessage
+MeetingService
+MeetingObserver → Observer pattern for notifications
+ParticipantState
+
+// User
+class User {
+    String id;
+    String name;
+
+    // Methods
+    User(String id, String name);
+    String getId();
+    String getName();
+}
+
+
+// Participant
+class Participant {
+    User user;
+    boolean audioOn;
+    boolean videoOn;
+
+    // Methods
+    Participant(User user);
+    void mute();
+    void unmute();
+    void turnVideoOn();
+    void turnVideoOff();
+}
+
+
+// ChatMessage
+class ChatMessage {
+    User sender;
+    String message;
+
+    // Methods
+    ChatMessage(User sender, String message);
+    User getSender();
+    String getMessage();
+}
+
+
+// MeetingObserver
+interface MeetingObserver {
+
+    // Methods
+    void update(String message);
+}
+
+
+// ParticipantObserver
+class ParticipantObserver implements MeetingObserver {
+    User user;
+
+    // Methods
+    ParticipantObserver(User user);
+    void update(String message);
+}
+
+
+// Meeting
+class Meeting {
+    String meetingId;
+    User host;
+    Map<String, Participant> participants;
+    List<MeetingObserver> observers;
+    boolean active;
+
+    // Methods
+    Meeting(String meetingId, User host);
+
+    void addParticipant(Participant participant);
+    void removeParticipant(String userId);
+
+    void mute(String userId);
+    void unmute(String userId);
+
+    void turnVideoOn(String userId);
+    void turnVideoOff(String userId);
+
+    void sendMessage(User sender, String message);
+
+    void addObserver(MeetingObserver observer);
+    void notifyObservers(String message);
+
+    void endMeeting();
+    void leaveMeeting();
+    boolean isActive();
+    String getMeetingId();
+    User getHost();
+}
+
+
+// MeetingService
+class MeetingService {
+    Map<String, Meeting> meetings;
+
+    // Methods
+    MeetingService();
+
+    Meeting createMeeting(String meetingId, User host);
+    Meeting getMeeting(String meetingId);
+}

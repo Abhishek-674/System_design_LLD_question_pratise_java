@@ -1,0 +1,21 @@
+The system should support multiple payment methods:
+Credit/Debit Card
+UPI
+Net Banking
+Wallet
+A user should be able to make a payment by providing:
+User
+Amount
+Payment method
+The system should return the payment status:
+SUCCESS
+FAILED
+PENDING
+The system should maintain payment details such as:
+Payment ID
+User
+Amount
+Payment method
+Status
+Timestamp
+
